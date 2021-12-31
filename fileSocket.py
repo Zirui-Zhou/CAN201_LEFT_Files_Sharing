@@ -63,7 +63,7 @@ class _sendThread(threading.Thread):
         Args:
             send_addr: A address-like set of the target ip and port.
             sock_num: A integer of accepted number of sockets.
-            is_echo: A bool of whether this command is a echo (send after receiving CONT).
+            is_echo: A bool of whether this command is an echo (send after receiving CONT).
         """
         self.connect(send_addr)
         self._send_cont(sock_num, is_echo)
@@ -157,16 +157,16 @@ class sendSocket(object):
             self.thread_list[-1].start()
 
     def send_cont(self, sock_num, is_echo):
-        """Send CONT command to the send address.
+        """Send CONT command to the sending address.
 
         Args:
             sock_num: A integer of accepted number of sockets.
-            is_echo: A bool of whether this command is a echo (send after receiving CONT).
+            is_echo: A bool of whether this command is an echo (send after receiving CONT).
         """
         command.put(_sendThread.send_cont, self.thread_queue, self.send_addr, sock_num, is_echo)
 
     def send_file(self, filename):
-        """Send a file to the send address.
+        """Send a file to the sending address.
 
         Args:
             filename: A string of the relative path of the file.
@@ -231,7 +231,7 @@ class _recvThread(threading.Thread):
             package: A bytes of received message.
 
         Raises:
-            Exception: A custom exception of receiving unknown code.
+            Exception: A custom exception to receive unknown code.
         """
         package = _protocol.unpack(package)
         code = package[0]
@@ -252,7 +252,7 @@ class _recvThread(threading.Thread):
 
         Args:
             sock_num: A integer of requested number of sockets.
-            is_echo: A bool of whether this command is a echo (send after receiving CONT).
+            is_echo: A bool of whether this command is an echo (send after receiving CONT).
         """
         command.put(fileSocket.recv_cont, self.main_queue, sock_num, is_echo)
         self.pause()
@@ -415,7 +415,7 @@ class fileSocket(object):
         """Give command to sendSocket to send CONT command.
 
         Args:
-            is_echo: A bool of whether this command is a echo (send after receiving CONT).
+            is_echo: A bool of whether this command is an echo (send after receiving CONT).
         """
         command.put(sendSocket.send_cont, self.send_queue, self.sock_num, is_echo)
 
@@ -433,7 +433,7 @@ class fileSocket(object):
 
         Args:
             sock_num: A integer of requested number of sockets.
-            is_echo: A bool of whether this command is a echo (send after receiving CONT).
+            is_echo: A bool of whether this command is an echo (send after receiving CONT).
         """
         # TODO(Zirui): The reconnection will cause duplicate initiation of socket threads.
         self.init_thread(sock_num)
@@ -471,7 +471,7 @@ class command(object):
         Args:
             self: A instance of the class which the function is from.
             queue:  A queue to read message from.
-            retry: None or Exception of retrying condition.
+            retry: None or Exception to retry condition.
         """
         cmd = queue.get(block=True)
         if retry is None:
@@ -542,7 +542,7 @@ class _protocol(object):
             A bytes of packed code and arguments.
 
         Raises:
-            Exception: A custom exception of packing incompatible values.
+            Exception: A custom exception to pack incompatible values.
         """
         package = bytes()
         num_package = bytes()

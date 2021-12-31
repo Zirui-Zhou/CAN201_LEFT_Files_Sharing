@@ -14,7 +14,7 @@ DATA_SIZE = 32 * 1024
 
 
 class fileLoader(object):
-    """A iterator-like class to split big files into blocks.
+    """An iterator-like class to split big files into blocks.
 
     Attributes:
         filename: A string of the relative path of the file.
@@ -36,7 +36,7 @@ class fileLoader(object):
 
 
 class blockLoader(object):
-    """A iterator-like class to read a split block.
+    """An iterator-like class to read a split block.
 
     Attributes:
         filename: A string of the relative path of the target file.
@@ -111,7 +111,7 @@ class fileWriter(object):
 def get_file_info(filename):
     """Calculate the md5 of the target file.
 
-    This function depends on the md5sum shell command in Linux.
+    This function depends on the md5sum shell-command in Linux.
 
     Args:
         filename: A string of the relative path of the target file.
